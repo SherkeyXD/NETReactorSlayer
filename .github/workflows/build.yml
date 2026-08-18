@@ -45,12 +45,12 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore ${{ env.PROJECT }} --runtime ${{ matrix.runtime }}
+        run: dotnet restore "${{ env.PROJECT }}" --runtime ${{ matrix.runtime }}
 
       - name: Publish
         run: >-
-          dotnet publish ${{ env.PROJECT }}
-          --configuration ${{ env.CONFIGURATION }}
+          dotnet publish "${{ env.PROJECT }}"
+          --configuration "${{ env.CONFIGURATION }}"
           --framework net10.0
           --runtime ${{ matrix.runtime }}
           --self-contained true
@@ -92,12 +92,12 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore ${{ env.PROJECT }} --runtime ${{ matrix.runtime }}
+        run: dotnet restore "${{ env.PROJECT }}" --runtime ${{ matrix.runtime }}
 
       - name: Publish
         run: >-
-          dotnet publish ${{ env.PROJECT }}
-          --configuration ${{ env.CONFIGURATION }}
+          dotnet publish "${{ env.PROJECT }}"
+          --configuration "${{ env.CONFIGURATION }}"
           --framework net10.0
           --runtime ${{ matrix.runtime }}
           --self-contained true
