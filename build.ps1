@@ -1,7 +1,7 @@
 param(
 	[ValidateSet("all", "netframework", "net10.0-win64", "net10.0-win-arm64", "net10.0-linux64", "net10.0-linux-arm64", "net10.0-osx-arm64")]
 	[string]$framework = 'all',
-	${-no-msbuild}
+	[switch]$NoMsBuild
 )
 
 $ErrorActionPreference = 'Stop'
@@ -10,7 +10,7 @@ $configuration = 'Release'
 
 function BuildNETFramework {
 	Write-Host 'Building .NET Framework x86 and x64 binaries'
-	if (${-no-msbuild}) {
+	if ($NoMsBuild) {
 		dotnet build -v:m -c $configuration
 		if ($LASTEXITCODE) { 
 			Write-Host
@@ -37,7 +37,7 @@ function BuildNETCore {
 
 	$runtimeidentifier = "$architecture"
 
-	if (${-no-msbuild}) {
+	if ($NoMsBuild) {
 		dotnet publish NETReactorSlayer.CLI\NETReactorSlayer.CLI.csproj -v:m -c $configuration -f $tfm -r $runtimeidentifier --self-contained -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=True -p:PublishSingleFile=true
 		if ($LASTEXITCODE) { 
 			Write-Host
