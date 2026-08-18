@@ -15,9 +15,9 @@
 			<HintPath>..\Libs\net35\de4dot.blocks.dll</HintPath>
 		</Reference>
 		<Reference Include="de4dot.blocks" Condition="'$(IsDotNet)' == 'true'">
-			<HintPath>..\Libs\netcoreapp3.1\de4dot.blocks.dll</HintPath>
+			<HintPath>..\Libs\net\de4dot.blocks.dll</HintPath>
 		</Reference>
-		<PackageReference Include="dnlib" Version="4.1.0" />
+		<PackageReference Include="dnlib" Version="4.5.0" />
 
 	</ItemGroup>
 
