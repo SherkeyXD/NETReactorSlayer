@@ -24,19 +24,19 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'csharp' ]
-        dotnet-version: [ '6.0.x' ]
+        dotnet-version: [ '10.0.x' ]
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v6
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
         
@@ -44,6 +44,6 @@ jobs:
       run: dotnet build NETReactorSlayer.sln
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
