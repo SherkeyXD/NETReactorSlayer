@@ -130,12 +130,12 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore "$PROJECT" --runtime osx-arm64
+        run: dotnet restore "${{ env.PROJECT }}" --runtime osx-arm64
 
       - name: Publish
         run: >-
-          dotnet publish "$PROJECT"
-          --configuration "$CONFIGURATION"
+          dotnet publish "${{ env.PROJECT }}"
+          --configuration "${{ env.CONFIGURATION }}"
           --framework net10.0
           --runtime osx-arm64
           --self-contained true
