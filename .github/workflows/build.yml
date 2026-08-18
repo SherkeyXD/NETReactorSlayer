@@ -62,7 +62,7 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
-        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
+        if: github.event_name == 'release' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
         with:
           name: NETReactorSlayer.CLI-${{ matrix.runtime }}
           path: artifacts/NETReactorSlayer.CLI-${{ matrix.runtime }}
@@ -109,15 +109,21 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
-        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
+        if: github.event_name == 'release' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
         with:
           name: NETReactorSlayer.CLI-${{ matrix.runtime }}
           path: artifacts/NETReactorSlayer.CLI-${{ matrix.runtime }}
           if-no-files-found: error
 
   build-macos:
-    name: Build macOS (arm64)
-    runs-on: macos-14
+    name: Build macOS (${{ matrix.architecture }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - runner: macos-14
+            architecture: arm64
+            runtime: osx-arm64
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -130,25 +136,25 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore "${{ env.PROJECT }}" --runtime osx-arm64
+        run: dotnet restore "${{ env.PROJECT }}" --runtime ${{ matrix.runtime }}
 
       - name: Publish
         run: >-
           dotnet publish "${{ env.PROJECT }}"
           --configuration "${{ env.CONFIGURATION }}"
           --framework net10.0
-          --runtime osx-arm64
+          --runtime ${{ matrix.runtime }}
           --self-contained true
           --no-restore
-          --output artifacts/NETReactorSlayer.CLI-osx-arm64
+          --output artifacts/NETReactorSlayer.CLI-${{ matrix.runtime }}
           -p:IncludeNativeLibrariesForSelfExtract=true
           -p:PublishSingleFile=true
           -p:PublishTrimmed=true
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
-        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
+        if: github.event_name == 'release' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
         with:
-          name: NETReactorSlayer.CLI-osx-arm64
-          path: artifacts/NETReactorSlayer.CLI-osx-arm64
+          name: NETReactorSlayer.CLI-${{ matrix.runtime }}
+          path: artifacts/NETReactorSlayer.CLI-${{ matrix.runtime }}
           if-no-files-found: error
