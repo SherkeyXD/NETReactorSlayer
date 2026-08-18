@@ -15,6 +15,9 @@ on:
       - released
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   DOTNET_VERSION: 10.0.x
   CONFIGURATION: Release
